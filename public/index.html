@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Location</title>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    sendLocationToServer, 
+                    (error) => console.error('Geolocation error:', error)
+                );
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function sendLocationToServer(position) {
+            const { latitude, longitude } = position.coords;
+            console.log('Sending location:', latitude, longitude);
+            
+            fetch('https://vzchph5b-8081.inc1.devtunnels.ms/location', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ latitude, longitude }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to find your location');
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>hello pranav under to share location</h1>
+    <button onclick="getLocation()">plz click this pranav</button>
+</body>
+</html>
